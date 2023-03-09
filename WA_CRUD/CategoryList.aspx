@@ -51,7 +51,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="btnAdd" runat="server" Text="新增" OnClick="btnAdd_OnClick" OnClientClick="return formCheck();" />
+                            <asp:Button ID="BtnAdd" runat="server" Text="新增" OnClick="BtnAdd_OnClick" OnClientClick="return formCheck();" />
                         </td>
                     </tr>
                 </table>
@@ -71,7 +71,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lBtnDelete" runat="server" Text="刪除" OnClick="lBtnDelete_OnClick" OnClientClick="return checkDelete();"></asp:LinkButton>
+                                    <asp:LinkButton ID="LBtnDelete" runat="server" Text="刪除" OnClick="LBtnDelete_OnClick" OnClientClick="return checkDelete();"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="全名" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">

@@ -2,34 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.UI;
 
 namespace WA_CRUD_Data
 {
     public class CategoryModel
-    {
+    {        
         /// <summary>
         /// 取得所有類別
         /// </summary>
         /// <returns></returns>
-        public List<Categorys> GetCategoryList()
+        public List<Categories> GetCategoryList()
         {
-            List<Categorys> listData = new List<Categorys>();
+            List<Categories> listData = new List<Categories>();
             try
             {
                 using (var context = new CategoryDataDataContext())
                 {
-                    var data = context.Categorys.AsEnumerable();//AsQueryable();
+                    var data = context.Categories.AsEnumerable();//AsQueryable();
                     if(data != null)
                     {
                         data=data.Where(s=>s.Status).ToList();
-                        listData.AddRange(data);
+                        listData.Add((Categories)data);
                     }
                
-                   // return listData.to
-                    //if (data.Any())
-                    //{
-                    //    listData = data.Where(s=>s.Status.Equals(true)).ToList();
-                    //}
                 }
             }
             catch (Exception ex)
@@ -46,10 +42,10 @@ namespace WA_CRUD_Data
         /// </summary>
         /// <param name="cId"></param>
         /// <returns></returns>
-        public Categorys GetCategoryById(int cId)
+        public Categories GetCategoryById(int id)
         {
-            Categorys cyData = null;
-            if (cId <= 0)
+            Categories categoryData = null;
+            if (id <= 0)
             {
                 throw new NullReferenceException("無可取得類別之條件");
             }
@@ -57,7 +53,7 @@ namespace WA_CRUD_Data
             {
                 using (var context= new CategoryDataDataContext())
                 {
-                    cyData = context.Categorys.Where(s => s.Id== cId).FirstOrDefault();
+                    categoryData = context.Categories.Where(s => s.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -65,7 +61,7 @@ namespace WA_CRUD_Data
                 
                 throw ex;
             }
-            return cyData;
+            return categoryData;
         }
 
         /// <summary>
@@ -73,7 +69,7 @@ namespace WA_CRUD_Data
         /// </summary>
         /// <param name="categoryItem"></param>
         /// <returns></returns>
-        public bool AddCategory(Categorys categoryItem)
+        public bool AddCategory(Categories categoryItem)
         {
             bool result = false;
             if (categoryItem == null) throw new NullReferenceException("無可供新增的項目");
@@ -81,11 +77,11 @@ namespace WA_CRUD_Data
             {
                 using (var context= new CategoryDataDataContext())
                 {
-                    if (context.Categorys.Where(s => s.Name.ToUpper() == categoryItem.Name.ToUpper()&&s.Status).Any())
+                    if (context.Categories.Where(s => s.Name.ToUpper() == categoryItem.Name.ToUpper()&&s.Status).Any())
                     {
                         throw new Exception("已有此類別，無法新增");
                     }
-                    context.Categorys.InsertOnSubmit(categoryItem);
+                    context.Categories.InsertOnSubmit(categoryItem);
                     context.SubmitChanges();
                     result = true;
                 }
@@ -102,7 +98,7 @@ namespace WA_CRUD_Data
         /// </summary>
         /// <param name="updateItem"></param>
         /// <returns></returns>
-        public bool UpdateItemById(Categorys updateItem)
+        public bool UpdateItemById(Categories updateItem)
         {
             bool updateResult = false;
             if (updateItem == null) throw new NullReferenceException("查無可更新的項目");
@@ -110,7 +106,7 @@ namespace WA_CRUD_Data
             {
                 using (var context= new CategoryDataDataContext())
                 {
-                    var oriItem = context.Categorys.Where(s => s.Id == updateItem.Id);
+                    var oriItem = context.Categories.Where(s => s.Id == updateItem.Id);
                     if (oriItem.Any())
                     {
                         oriItem.First().Name = updateItem.Name;
@@ -135,21 +131,21 @@ namespace WA_CRUD_Data
         /// </summary>
         /// <param name="deleteList"></param>
         /// <returns></returns>
-        public bool DeleteCategoryData(List<Categorys> deleteList)
+        public bool DeleteCategoryData(List<Categories> deleteList)
         {
             var deleteResult = true;
             try
             {
                 using (var context=new CategoryDataDataContext())
                 {
-                    var deleteData = new List<Categorys>();
+                    var deleteData = new List<Categories>();
                     foreach (var item in deleteList)
                     {
                         //var deleteItem = new Categorys();
-                        var deleteItem = context.Categorys.First(s => s.Id == item.Id);
+                        var deleteItem = context.Categories.First(s => s.Id == item.Id);
                         deleteData.Add(deleteItem);
                     }
-                    context.Categorys.DeleteAllOnSubmit(deleteData);
+                    context.Categories.DeleteAllOnSubmit(deleteData);
                     context.SubmitChanges();
       
                 }
@@ -163,17 +159,21 @@ namespace WA_CRUD_Data
         }
     }
 
+	//public class Alert
+	//{
+	//	public string Msg { get; set; }
+	//	public string JsCode { get; set; }
+	//	//public object Controls { get; private set; }
 
+	//	public Alert()
+	//	{
+ //           string script = "alert(\"" + Msg + "\");" + JsCode;
+ //           new LiteralControl(("<script>" + script + "</script>"));
+ //         //  this.Controls.Add(new LiteralControl(("<script>" + script + "</script>")))
+ //       }
 
-
-
-
-    //public  class Category:Categorys
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //    public string SimpleName { get; set; }
-    //    public string IsActive { get; set; }
-    //    public List<Category> Categories { get; set; } 
-    //}
+	//	//public void Alert() { }
+	//}
+ 
+   
 }

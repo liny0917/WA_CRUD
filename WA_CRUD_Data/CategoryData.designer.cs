@@ -30,9 +30,9 @@ namespace WA_CRUD_Data
 		
     #region 擴充性方法定義
     partial void OnCreated();
-    partial void InsertCategorys(Categorys instance);
-    partial void UpdateCategorys(Categorys instance);
-    partial void DeleteCategorys(Categorys instance);
+    partial void InsertCategories(Categories instance);
+    partial void UpdateCategories(Categories instance);
+    partial void DeleteCategories(Categories instance);
     #endregion
 		
 		public CategoryDataDataContext() : 
@@ -65,17 +65,17 @@ namespace WA_CRUD_Data
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Categorys> Categorys
+		public System.Data.Linq.Table<Categories> Categories
 		{
 			get
 			{
-				return this.GetTable<Categorys>();
+				return this.GetTable<Categories>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Categorys")]
-	public partial class Categorys : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Categories")]
+	public partial class Categories : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -102,7 +102,7 @@ namespace WA_CRUD_Data
     partial void OnStatusChanged();
     #endregion
 		
-		public Categorys()
+		public Categories()
 		{
 			OnCreated();
 		}

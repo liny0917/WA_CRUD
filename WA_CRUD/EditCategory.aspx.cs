@@ -10,7 +10,7 @@ namespace WA_CRUD
 {
     public partial class EditCategory : System.Web.UI.Page
     {
-        CategoryModel ct = new CategoryModel();
+        CategoryModel model = new CategoryModel();
         protected void Page_Load(object sender, EventArgs e)
         {
             InitForm();
@@ -20,12 +20,12 @@ namespace WA_CRUD
         {
             if (!IsPostBack)
             {
-                var _cId = 0;
-                var cId = string.IsNullOrEmpty(Request["id"]) ? _cId : int.TryParse(Request["id"], out _cId) ?
-                                  int.Parse(Request["id"]) : _cId;
-                if (cId != 0)
+                var _id = 0;
+                var id = string.IsNullOrEmpty(Request["id"]) ? _id : int.TryParse(Request["id"], out _id) ?
+                                  int.Parse(Request["id"]) : _id;
+                if (_id != 0)
                 {
-                    var cData = ct.GetCategoryById(cId);
+                    var cData = model.GetCategoryById(id);
                     if (cData != null)
                     {
                         txtName.Text = cData.Name;
@@ -35,35 +35,35 @@ namespace WA_CRUD
             }
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
+        protected void BtnSave_Click(object sender, EventArgs e)
         {
 
-            if (CheckInput(txtName.Text))
+            if (CheckInput())
             {
-                UpdateCategory(txtName.Text, txtSimple.Text);
+                UpdateCategory();
             }
 
         }
 
-        private void UpdateCategory(string updateName, string updateSimple)
+        private void UpdateCategory()
         {
-            var _cId = 0;
-            var cId = string.IsNullOrEmpty(Request["id"]) ? _cId : int.TryParse(Request["id"], out _cId) ?
-                              int.Parse(Request["id"]) : _cId;
+            var _id = 0;
+            var id = string.IsNullOrEmpty(Request["id"]) ? _id : int.TryParse(Request["id"], out _id) ?
+                              int.Parse(Request["id"]) : _id;
 
-            if (cId != 0)
+            if (id != 0)
             {
-                var inputName = txtName.Text;
-                var inputSimpleName = txtSimple.Text;
-                if (ct.GetCategoryList().Any(s => s.Name == inputName && s.Id != cId))
+				var inputName = txtName.Text;
+				var inputSimpleName = txtSimple.Text;
+				if (model.GetCategoryList().Any(s => s.Name.ToUpper() == inputName.ToUpper() && s.Id != id))
                 {
                     Alert("已有重複全名，請修正");
                 }
                 else
                 {
-                    var updateItem = ct.UpdateItemById(new Categorys()
+                    var updateItem = model.UpdateItemById(new Categories()
                     {
-                        Id = cId,
+                        Id = id,
                         Name = inputName,
                         SimpleName = inputSimpleName
                     });
@@ -87,9 +87,9 @@ namespace WA_CRUD
             Page.Controls.Add(new LiteralControl(("<script>" + script + "</script>")));
         }
 
-        private bool CheckInput(string strName)
+        private bool CheckInput()
         {
-            return !string.IsNullOrEmpty(strName);
+            return !string.IsNullOrEmpty(txtName.Text.Trim());
         }
 
 		protected void BtnCanel_Click(object sender, EventArgs e)
